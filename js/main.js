@@ -64,12 +64,11 @@ for (let i = 0; i < images.length; i++) {
     thumbs.append(thumb);
 }
 
+let listThumbs = document.querySelectorAll(".thumb");
+let listItems = document.querySelectorAll(".item");
 
 thumbs.addEventListener("click", function(event){
     const clickTarget = event.target
-
-    let listThumbs = document.querySelectorAll(".thumb");
-    let listItems = document.querySelectorAll(".item");
 
     if (clickTarget.classList.contains("arrow")){
         arrowScrolling(clickTarget, listThumbs, listItems);
@@ -94,7 +93,7 @@ function arrowScrolling(arrow, thumbs, items){
                 } else {
                     thumbs[0].classList.add("active");
                     items[0].classList.add("active");
-                };
+                }
                 return
                 
             } else if (arrow.classList.contains("prev")){
@@ -106,7 +105,7 @@ function arrowScrolling(arrow, thumbs, items){
                 } else {
                     thumbs[thumbs.length - 1].classList.add("active");
                     items[items.length - 1].classList.add("active");
-                };
+                }
                 return
             } 
         }
@@ -128,5 +127,26 @@ function pointScrolling(point, thumbs, items){
             }
         }
 
+    }
+}
+
+
+setInterval(repeat, 3000)
+
+function repeat(){
+    for (let i = 0; i < listThumbs.length; i++){
+
+        if (listThumbs[i].classList.contains("active")){
+            listThumbs[i].classList.remove("active");
+            listItems[i].classList.remove("active");
+            if (i !== listThumbs.length - 1){
+                listThumbs[i+1].classList.add("active");
+                listItems[i+1].classList.add("active");
+            } else {
+                listThumbs[0].classList.add("active");
+                listItems[0].classList.add("active");
+            }
+            break;
+        }
     }
 }
