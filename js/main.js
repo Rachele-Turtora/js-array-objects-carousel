@@ -66,54 +66,67 @@ for (let i = 0; i < images.length; i++) {
 
 
 thumbs.addEventListener("click", function(event){
-    const arrow = event.target
+    const clickTarget = event.target
 
     let listThumbs = document.querySelectorAll(".thumb");
     let listItems = document.querySelectorAll(".item");
 
-    for (let i = 0; i < listThumbs.length; i++){
+    if (clickTarget.classList.contains("arrow")){
+        arrowScrolling(clickTarget, listThumbs, listItems);
+    } else {
+        pointScrolling(clickTarget, listThumbs, listItems);
+    }
+    
+})
 
-        if (listThumbs[i].classList.contains("active")){
+function arrowScrolling(arrow, thumbs, items){
+
+    for (let i = 0; i < thumbs.length; i++){
+
+        if (thumbs[i].classList.contains("active")){
             
             if (arrow.classList.contains("next")){
-                listThumbs[i].classList.remove("active");
-                listItems[i].classList.remove("active");
-                if (i !== listThumbs.length - 1){
-                    listThumbs[i+1].classList.add("active");
-                    listItems[i+1].classList.add("active");
+                thumbs[i].classList.remove("active");
+                items[i].classList.remove("active");
+                if (i !== thumbs.length - 1){
+                    thumbs[i+1].classList.add("active");
+                    items[i+1].classList.add("active");
                 } else {
-                    listThumbs[0].classList.add("active");
-                    listItems[0].classList.add("active");
+                    thumbs[0].classList.add("active");
+                    items[0].classList.add("active");
                 };
                 return
                 
             } else if (arrow.classList.contains("prev")){
-                listThumbs[i].classList.remove("active");
-                listItems[i].classList.remove("active");
+                thumbs[i].classList.remove("active");
+                items[i].classList.remove("active");
                 if (i !== 0){
-                    listThumbs[i-1].classList.add("active");
-                    listItems[i-1].classList.add("active");
+                    thumbs[i-1].classList.add("active");
+                    items[i-1].classList.add("active");
                 } else {
-                    listThumbs[listThumbs.length - 1].classList.add("active");
-                    listItems[listItems.length - 1].classList.add("active");
+                    thumbs[thumbs.length - 1].classList.add("active");
+                    items[items.length - 1].classList.add("active");
                 };
                 return
             } 
         }
     }
-})
+}
 
+function pointScrolling(point, thumbs, items){
 
-/*thumbs.addEventListener("click", function(e){
-
-    const thumb = e.target;
-    thumb.parentNode.classList.add("active");
-
-    const imgs = document.querySelectorAll(".item img");
-
-    for (let i = 0; i < imgs.length; i++){
-        if (imgs[i].src === e.target.src){
-            imgs[i].parentNode.classList.add("active");
+    if (!point.parentNode.classList.contains("active")){
+        for (let i = 0; i < items.length; i++){
+            thumbs[i].classList.remove("active");
+            items[i].classList.remove("active");
         }
+
+        point.parentNode.classList.add("active");
+        for (let i = 0; i < items.length; i++){
+            if (point.src === items[i].children[0].src){
+                items[i].classList.add("active");
+            }
+        }
+
     }
-})*/
+}
