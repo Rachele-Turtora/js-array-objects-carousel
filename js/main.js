@@ -24,4 +24,89 @@ const images = [
     }
 ];
 
+// Creating items and thumbs
+const items = document.querySelector(".items");
+//const thumbs = document.querySelector(".thumbs");
 
+for (let i = 0; i < images.length; i++) {
+
+    const currentObject = images[i]
+
+    const item = document.createElement("div");
+    item.classList.add("item");
+
+    if (currentObject["image"] == "img/01.webp"){
+        item.classList.add("active")
+    }
+
+    //const thumb = document.createElement("div");
+    //thumb.classList.add("thumb");
+
+    const imgItem = document.createElement("img");
+    imgItem.src = currentObject["image"];
+
+    //const imgThumb = document.createElement("img");
+    //imgThumb.src = currentObject["image"];
+
+    const title = document.createElement("h2");
+    title.innerText = currentObject["title"];
+
+    const text = document.createElement("p");
+    text.innerText = currentObject["text"];
+
+    item.append(imgItem);
+    //thumb.append(imgThumb);
+    item.append(title);
+    item.append(text);
+
+    items.append(item);
+    //thumbs.append(thumb);
+}
+
+
+items.addEventListener("click", function(event){
+    const arrow = event.target
+
+    let currentActive;
+    let listItems = document.querySelectorAll(".item");
+
+    for (let i = 0; i < listItems.length; i++){
+
+        if (listItems[i].classList.contains("active")){
+            currentActive = listItems[i];
+            if (arrow.classList.contains("next")){
+                listItems[i].classList.remove("active");
+                if (i !== listItems.length - 1){
+                    listItems[i+1].classList.add("active");
+                } else {
+                    listItems[0].classList.add("active");
+                };
+                return
+                
+            } else if (arrow.classList.contains("prev")){
+                listItems[i].classList.remove("active");
+                if (i !== 0){
+                    listItems[i-1].classList.add("active");
+                } else {
+                    listItems[listItems.length - 1].classList.add("active");
+                };
+                return
+            }
+        }
+    }
+})
+
+
+/*thumbs.addEventListener("click", function(e){
+
+    const thumb = e.target;
+    thumb.parentNode.classList.add("active");
+
+    const imgs = document.querySelectorAll(".item img");
+
+    for (let i = 0; i < imgs.length; i++){
+        if (imgs[i].src === e.target.src){
+            imgs[i].parentNode.classList.add("active");
+        }
+    }
+})*/
