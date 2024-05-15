@@ -26,7 +26,7 @@ const images = [
 
 // Creating items and thumbs
 const items = document.querySelector(".items");
-//const thumbs = document.querySelector(".thumbs");
+const thumbs = document.querySelector(".thumbs");
 
 for (let i = 0; i < images.length; i++) {
 
@@ -35,18 +35,19 @@ for (let i = 0; i < images.length; i++) {
     const item = document.createElement("div");
     item.classList.add("item");
 
-    if (currentObject["image"] == "img/01.webp"){
-        item.classList.add("active")
-    }
+    const thumb = document.createElement("div");
+    thumb.classList.add("thumb");
 
-    //const thumb = document.createElement("div");
-    //thumb.classList.add("thumb");
+    if (currentObject["image"] == "img/01.webp"){
+        item.classList.add("active");
+        thumb.classList.add("active");
+    }
 
     const imgItem = document.createElement("img");
     imgItem.src = currentObject["image"];
 
-    //const imgThumb = document.createElement("img");
-    //imgThumb.src = currentObject["image"];
+    const imgThumb = document.createElement("img");
+    imgThumb.src = currentObject["image"];
 
     const title = document.createElement("h2");
     title.innerText = currentObject["title"];
@@ -55,43 +56,49 @@ for (let i = 0; i < images.length; i++) {
     text.innerText = currentObject["text"];
 
     item.append(imgItem);
-    //thumb.append(imgThumb);
+    thumb.append(imgThumb);
     item.append(title);
     item.append(text);
 
     items.append(item);
-    //thumbs.append(thumb);
+    thumbs.append(thumb);
 }
 
 
-items.addEventListener("click", function(event){
+thumbs.addEventListener("click", function(event){
     const arrow = event.target
 
-    let currentActive;
+    let listThumbs = document.querySelectorAll(".thumb");
     let listItems = document.querySelectorAll(".item");
 
-    for (let i = 0; i < listItems.length; i++){
+    for (let i = 0; i < listThumbs.length; i++){
 
-        if (listItems[i].classList.contains("active")){
-            currentActive = listItems[i];
+        if (listThumbs[i].classList.contains("active")){
+            
             if (arrow.classList.contains("next")){
+                listThumbs[i].classList.remove("active");
                 listItems[i].classList.remove("active");
-                if (i !== listItems.length - 1){
+                if (i !== listThumbs.length - 1){
+                    listThumbs[i+1].classList.add("active");
                     listItems[i+1].classList.add("active");
                 } else {
+                    listThumbs[0].classList.add("active");
                     listItems[0].classList.add("active");
                 };
                 return
                 
             } else if (arrow.classList.contains("prev")){
+                listThumbs[i].classList.remove("active");
                 listItems[i].classList.remove("active");
                 if (i !== 0){
+                    listThumbs[i-1].classList.add("active");
                     listItems[i-1].classList.add("active");
                 } else {
+                    listThumbs[listThumbs.length - 1].classList.add("active");
                     listItems[listItems.length - 1].classList.add("active");
                 };
                 return
-            }
+            } 
         }
     }
 })
