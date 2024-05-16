@@ -28,9 +28,8 @@ const images = [
 const items = document.querySelector(".items");
 const thumbs = document.querySelector(".thumbs");
 
-for (let i = 0; i < images.length; i++) {
-
-    const currentObject = images[i]
+images.forEach((element) => {
+    const currentObject = element
 
     const item = document.createElement("div");
     item.classList.add("item");
@@ -67,7 +66,7 @@ for (let i = 0; i < images.length; i++) {
 
     items.append(item);
     thumbs.append(thumb);
-}
+})
 
 
 let listThumbs = document.querySelectorAll(".thumb");
@@ -130,7 +129,7 @@ function pointScrolling(point, thumbs, items){
 
         point.parentNode.classList.add("active");
         for (let i = 0; i < items.length; i++){
-            if (point.src === items[i].children[0].src){
+            if (point.src === items[i].children[1].src){
                 items[i].classList.add("active");
             }
         }
