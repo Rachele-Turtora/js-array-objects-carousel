@@ -64,6 +64,7 @@ for (let i = 0; i < images.length; i++) {
     thumbs.append(thumb);
 }
 
+
 let listThumbs = document.querySelectorAll(".thumb");
 let listItems = document.querySelectorAll(".item");
 
@@ -78,6 +79,7 @@ thumbs.addEventListener("click", function(event){
     
 })
 
+// Click on the arrows
 function arrowScrolling(arrow, thumbs, items){
 
     for (let i = 0; i < thumbs.length; i++){
@@ -112,6 +114,7 @@ function arrowScrolling(arrow, thumbs, items){
     }
 }
 
+// Click on the specific thumb
 function pointScrolling(point, thumbs, items){
 
     if (!point.parentNode.classList.contains("active")){
@@ -135,6 +138,7 @@ const buttons = document.querySelector(".buttons");
 let clock;
 let clockReverse;
 
+// Autoplay
 buttons.addEventListener("click", function(event){
     const buttonValue = event.target;
 
