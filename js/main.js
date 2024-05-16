@@ -28,46 +28,46 @@ const images = [
 const items = document.querySelector(".items");
 const thumbs = document.querySelector(".thumbs");
 
-images.forEach((element) => {
-    const currentObject = element
+generateElement("item", items);
+generateElement("thumb", thumbs);
 
-    const item = document.createElement("div");
-    item.classList.add("item");
+function generateElement(className, parentElement){
+    images.forEach((element, index) => {
+        const currentObject = element
+    
+        const div = document.createElement("div");
+        div.classList.add(className);
+        div.dataset.index = index   // creo data-index per ogni item e thumb
+    
+        if (currentObject["image"] == "img/01.webp"){
+            div.classList.add("active");
+        }
+    
+        const img = document.createElement("img");
+        img.src = currentObject["image"];
+    
+        div.append(img);
 
-    const content = document.createElement("div");
-    content.classList.add("content");
+        parentElement.append(div);
 
-    item.append(content);
+        if (parentElement == items){
+            const content = document.createElement("div");
+            content.classList.add("content");
+    
+            div.append(content);
 
-    const thumb = document.createElement("div");
-    thumb.classList.add("thumb");
+            const title = document.createElement("h2");
+            title.innerText = currentObject["title"];
+        
+            const text = document.createElement("p");
+            text.innerText = currentObject["text"];
 
-    if (currentObject["image"] == "img/01.webp"){
-        item.classList.add("active");
-        thumb.classList.add("active");
-    }
+            content.append(title);
+            content.append(text);
+        }
 
-    const imgItem = document.createElement("img");
-    imgItem.src = currentObject["image"];
-
-    const imgThumb = document.createElement("img");
-    imgThumb.src = currentObject["image"];
-
-    const title = document.createElement("h2");
-    title.innerText = currentObject["title"];
-
-    const text = document.createElement("p");
-    text.innerText = currentObject["text"];
-
-    item.append(imgItem);
-    thumb.append(imgThumb);
-    content.append(title);
-    content.append(text);
-
-    items.append(item);
-    thumbs.append(thumb);
-})
-
+    })
+}
 
 let listThumbs = document.querySelectorAll(".thumb");
 let listItems = document.querySelectorAll(".item");
@@ -75,66 +75,66 @@ let listItems = document.querySelectorAll(".item");
 thumbs.addEventListener("click", function(event){
     const clickTarget = event.target
 
-    if (clickTarget.classList.contains("arrow")){
-        arrowScrolling(clickTarget, listThumbs, listItems);
-    } else {
-        pointScrolling(clickTarget, listThumbs, listItems);
+    function currentImage(items){
+        for (let element of items) {
+            if (element.classList.contains("active")) {
+                return element.dataset.index;
+            }
+        }
     }
-    
+
+    let index = currentImage(listItems);
+
+    if (clickTarget.classList.contains("prev")){
+        arrowScrollingUp(index, listThumbs, listItems);
+    } else if (clickTarget.classList.contains("next")){
+        arrowScrollingDown(index, listThumbs, listItems);
+    } else {
+        pointScrolling(clickTarget, listThumbs, listItems, index);
+    }
 })
 
 // Click on the arrows
-function arrowScrolling(arrow, thumbs, items){
+function arrowScrollingUp(index, items, thumbs){
+    
+    items[index].classList.remove("active");
+    thumbs[index].classList.remove("active");
 
-    for (let i = 0; i < thumbs.length; i++){
-
-        if (thumbs[i].classList.contains("active")){
-            
-            if (arrow.classList.contains("next")){
-                thumbs[i].classList.remove("active");
-                items[i].classList.remove("active");
-                if (i !== thumbs.length - 1){
-                    thumbs[i+1].classList.add("active");
-                    items[i+1].classList.add("active");
-                } else {
-                    thumbs[0].classList.add("active");
-                    items[0].classList.add("active");
-                }
-                return
-                
-            } else if (arrow.classList.contains("prev")){
-                thumbs[i].classList.remove("active");
-                items[i].classList.remove("active");
-                if (i !== 0){
-                    thumbs[i-1].classList.add("active");
-                    items[i-1].classList.add("active");
-                } else {
-                    thumbs[thumbs.length - 1].classList.add("active");
-                    items[items.length - 1].classList.add("active");
-                }
-                return
-            } 
-        }
+    if (index != 0){
+        index--;
+    } else {
+        index = 4;
     }
+        
+    items[index].classList.add("active");
+    thumbs[index].classList.add("active");
+}
+
+function arrowScrollingDown(index, items, thumbs){
+
+    items[index].classList.remove("active");
+    thumbs[index].classList.remove("active");
+
+    if (index != 4){
+        index++;
+    } else {
+        index = 0;
+    }
+        
+    items[index].classList.add("active");
+    thumbs[index].classList.add("active");
 }
 
 // Click on the specific thumb
-function pointScrolling(point, thumbs, items){
+function pointScrolling(point, thumbs, items, index){
 
-    if (!point.parentNode.classList.contains("active")){
-        for (let i = 0; i < items.length; i++){
-            thumbs[i].classList.remove("active");
-            items[i].classList.remove("active");
-        }
+    items[index].classList.remove("active");
+    thumbs[index].classList.remove("active");
 
-        point.parentNode.classList.add("active");
-        for (let i = 0; i < items.length; i++){
-            if (point.src === items[i].children[1].src){
-                items[i].classList.add("active");
-            }
-        }
+    let target = point.parentNode.dataset.index;
 
-    }
+    items[target].classList.add("active");
+    thumbs[target].classList.add("active");
 }
 
 
