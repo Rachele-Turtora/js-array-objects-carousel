@@ -35,6 +35,11 @@ for (let i = 0; i < images.length; i++) {
     const item = document.createElement("div");
     item.classList.add("item");
 
+    const content = document.createElement("div");
+    content.classList.add("content");
+
+    item.append(content);
+
     const thumb = document.createElement("div");
     thumb.classList.add("thumb");
 
@@ -57,8 +62,8 @@ for (let i = 0; i < images.length; i++) {
 
     item.append(imgItem);
     thumb.append(imgThumb);
-    item.append(title);
-    item.append(text);
+    content.append(title);
+    content.append(text);
 
     items.append(item);
     thumbs.append(thumb);
