@@ -99,3 +99,14 @@
     left: 50%;
     transform: translate(-50%) rotate(135deg);
 }
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+}
+
+button{
+    margin: 10px;
+    padding: 5px;
+    font-size: 20px;
+}

@@ -131,7 +131,24 @@ function pointScrolling(point, thumbs, items){
 }
 
 
-setInterval(repeat, 3000)
+const buttons = document.querySelector(".buttons");
+let clock;
+let clockReverse;
+
+buttons.addEventListener("click", function(event){
+    const buttonValue = event.target;
+
+    if (buttonValue.classList.contains("start")){
+        clearInterval(clockReverse);
+        clock = setInterval(repeat, 3000);
+    } else if (buttonValue.classList.contains("end")){
+        clearInterval(clock);
+        clearInterval(clockReverse)
+    } else if (buttonValue.classList.contains("reverse")){
+        clearInterval(clock);
+        clockReverse = setInterval(reverse, 3000);
+    }
+})
 
 function repeat(){
     for (let i = 0; i < listThumbs.length; i++){
@@ -145,6 +162,24 @@ function repeat(){
             } else {
                 listThumbs[0].classList.add("active");
                 listItems[0].classList.add("active");
+            }
+            break;
+        }
+    }
+}
+
+function reverse(){
+    for (let i = 0; i < listThumbs.length; i++){
+
+        if (listThumbs[i].classList.contains("active")){
+            listThumbs[i].classList.remove("active");
+            listItems[i].classList.remove("active");
+            if (i !== 0){
+                listThumbs[i-1].classList.add("active");
+                listItems[i-1].classList.add("active");
+            } else {
+                listThumbs[listThumbs.length - 1].classList.add("active");
+                listItems[listItems.length - 1].classList.add("active");
             }
             break;
         }
